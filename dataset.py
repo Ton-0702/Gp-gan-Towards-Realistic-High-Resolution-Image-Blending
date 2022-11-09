@@ -56,7 +56,7 @@ class BlendingDataset(dataset_mixin.DatasetMixin):
         self._imgs = []
         for _ in range(self._len):
             folder = numpy.random.choice(folders)
-            obj_path, bg_path = numpy.random.choice(imgs_per_folder[folder], 2, replace=False)
+            obj_path, bg_path = numpy.random.choice(imgs_per_folder[folder], 2, replace=True) #False
             self._imgs.append((obj_path, bg_path))
 
     def __len__(self):
