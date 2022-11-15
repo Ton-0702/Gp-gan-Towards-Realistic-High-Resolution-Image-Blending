@@ -10,12 +10,14 @@ from skimage.transform import resize
 
 class H5pyDataset(dataset_mixin.DatasetMixin):
     def __init__(self, path, which_set='train', load_size=None, crop_size=None, dtype=numpy.float32):
-        from fuel.datasets.hdf5 import H5PYDataset
+#         from fuel.datasets.hdf5 import H5PYDataset
+        import h5py
 
         self._dtype = dtype
         self._load_size = load_size
         self._crop_size = crop_size
-        self._data_set = H5PYDataset(path, which_sets=(which_set,))
+#         self._data_set = H5PYDataset(path, which_sets=(which_set,))
+        self._data_set = h5py(path, which_sets=(which_set,))
 
     def __len__(self):
         return self._data_set.num_examples
