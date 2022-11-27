@@ -72,7 +72,9 @@ class DCGAN_G(chainer.ChainList):
 class DCGAN_D(chainer.ChainList):
     def __init__(self, isize, ndf, nz=1, conv_init=None, bn_init=None):
         layers = []
+        # ksize=4 (kernel (filter): 4x4), initialW khởi tạo weight Ban đầu, nobias= True (không thuật ngữ thiên vị)
         layers.append(L.Convolution2D(None, ndf, ksize=4, stride=2, pad=1, initialW=conv_init, nobias=True))
+        #leakyRelu: những giá trị nhỏ hơn 0 sẽ vẫn được xét một độ dốc nhỏ cho các giá trị âm thay vì để giá trị là 0.
         layers.append(LeakyReLU())
         csize, cndf = isize / 2, ndf
         while csize > 4:
