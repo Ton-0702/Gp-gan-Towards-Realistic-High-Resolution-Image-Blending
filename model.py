@@ -40,10 +40,10 @@ class LeakyReLU(chainer.Chain):
 
 class DCGAN_G(chainer.ChainList):
     def __init__(self, isize, nc, ngf, conv_init=None, bn_init=None):
-        cngf, tisize = ngf // 2, 4
-        while tisize != isize:
-            cngf = cngf * 2
-            tisize = tisize * 2
+        cngf, tisize = ngf // 2, 4 # 64//2 =32, tisize= 4
+        while tisize != isize: # nếu tisize != isize(64)
+            cngf = cngf * 2 # lặp lai tới khi tisize = isize => sẽ có kết quả 512
+            tisize = tisize * 2 # kết quả cuối cùng 64
 
         layers = []
         # input is Z, going into a convolution
@@ -51,8 +51,9 @@ class DCGAN_G(chainer.ChainList):
         layers.append(L.BatchNormalization(cngf, initial_gamma=bn_init))
         layers.append(ReLU())
         csize, cndf = 4, cngf
-        while csize < isize // 2:
-            layers.append(L.Deconvolution2D(None, cngf // 2, ksize=4, stride=2, pad=1, initialW=conv_init, nobias=True))
+        while csize < isize // 2: # lặp nếu csize < isize (32)
+            # Deconvolution2D là phục hồi kích thước ảnh
+            layers.append(L.Deconvolution2D(None, cngf // 2, ksize=4, stride=2, pad=1, initialW=conv_init, nobias=True)) # vòng lặp đầu 512//2 =256, và lặp lại đến khi cize > isze
             layers.append(L.BatchNormalization(cngf // 2, initial_gamma=bn_init))
             layers.append(ReLU())
             cngf = cngf // 2
@@ -73,21 +74,21 @@ class DCGAN_D(chainer.ChainList):
     def __init__(self, isize, ndf, nz=1, conv_init=None, bn_init=None):
         layers = []
         # ksize=4 (kernel (filter): 4x4), initialW khởi tạo weight Ban đầu, nobias= True (không thuật ngữ thiên vị)
-        layers.append(L.Convolution2D(None, ndf, ksize=4, stride=2, pad=1, initialW=conv_init, nobias=True))
+        layers.append(L.Convolution2D(None, ndf, ksize=4, stride=2, pad=1, initialW=conv_init, nobias=True)) # sẽ ra kết quả tương tự csize, cndf
         #leakyRelu: những giá trị nhỏ hơn 0 sẽ vẫn được xét một độ dốc nhỏ cho các giá trị âm thay vì để giá trị là 0.
         layers.append(LeakyReLU())
-        csize, cndf = isize / 2, ndf
-        while csize > 4:
-            in_feat = cndf
-            out_feat = cndf * 2
+        csize, cndf = isize / 2, ndf # csize sẽ từ 64 thành 32, cndf là 64 (dc xem là số channel) -- kết quả dc gán để làm điều kiện lặp
+        while csize > 4: # nếu size lớn hơn 4 
+            in_feat = cndf # đầu vào đặc trưng 64  
+            out_feat = cndf * 2 # đầu ra đăc trưng của channel
             layers.append(L.Convolution2D(None, out_feat, ksize=4, stride=2, pad=1, initialW=conv_init, nobias=True))
             layers.append(L.BatchNormalization(out_feat, initial_gamma=bn_init))
             layers.append(LeakyReLU())
 
-            cndf = cndf * 2
-            csize = csize / 2
+            cndf = cndf * 2 # cập nhật kết qua layers mới
+            csize = csize / 2 # cập nhật kết qua layers mới
         # state size. K x 4 x 4
-        layers.append(L.Convolution2D(None, nz, ksize=4, stride=1, pad=0, initialW=conv_init, nobias=True))
+        layers.append(L.Convolution2D(None, nz, ksize=4, stride=1, pad=0, initialW=conv_init, nobias=True)) # kết quả của cuối là fatten thành vector dọc 1000
 
         super(DCGAN_D, self).__init__(*layers)
 
