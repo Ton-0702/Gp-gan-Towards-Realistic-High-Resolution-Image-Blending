@@ -84,22 +84,25 @@ class BlendingDataset(dataset_mixin.DatasetMixin):
                                                                                                      rh - self._crop_size)
 
         obj_croped = self._crop(obj, rw, rh, sx, sy)
-        print("Đây là ảnh obj: ",obj_croped)
-        plt.imshow(obj_croped)
+        obj_croped2 = obj_croped.T
+        print("Đây là ảnh obj: ",obj_croped2)
+        plt.imshow(obj_croped2)
         plt.show()
         
         bg_croped = self._crop(bg, rw, rh, sx, sy)
-        print("Đây là ảnh bg_croped: ",bg_croped)
-        plt.imshow(bg_croped)
+        bg_croped2 = bg_croped.T
+        print("Đây là ảnh bg_croped: ",bg_croped2)
+        plt.imshow(bg_croped2)
         plt.show()
         
         copy_paste = bg_croped.copy()
         copy_paste[:, self._sx:self._sx + self._size, self._sx:self._sx + self._size] = obj_croped[:,
                                                                                         self._sx:self._sx + self._size,
                                                                                         self._sx:self._sx + self._size]
+        copy_paste2= copy_paste.T
         
-        print("Đây là ảnh copy_paste: ",copy_paste)
-        plt.imshow(copy_paste)
+        print("Đây là ảnh copy_paste: ",copy_paste2)
+        plt.imshow(copy_paste2)
         plt.show()
 
         return copy_paste, bg_croped
