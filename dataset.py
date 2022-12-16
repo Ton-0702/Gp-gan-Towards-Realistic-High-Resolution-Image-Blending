@@ -85,14 +85,14 @@ class BlendingDataset(dataset_mixin.DatasetMixin):
 
         obj_croped = self._crop(obj, rw, rh, sx, sy)
         
-        print("Đây là ảnh obj: ",obj_croped.permute(1, 2, 0))
-        plt.imshow(obj_croped.T)
+        print("Đây là ảnh obj: ",numpy.transpose(obj_croped, (1, 2, 0)))
+        plt.imshow((numpy.transpose(obj_croped, (1, 2, 0)))
         plt.show()
         
         bg_croped = self._crop(bg, rw, rh, sx, sy)
         
-        print("Đây là ảnh bg_croped: ",bg_croped.permute(1, 2, 0))
-        plt.imshow(bg_croped.permute(1, 2, 0))
+        print("Đây là ảnh bg_croped: ",numpy.transpose(bg_croped, (1, 2, 0)))
+        plt.imshow(numpy.transpose(bg_croped, (1, 2, 0)))
         plt.show()
         
         copy_paste = bg_croped.copy()
@@ -100,8 +100,8 @@ class BlendingDataset(dataset_mixin.DatasetMixin):
                                                                                         self._sx:self._sx + self._size,
                                                                                         self._sx:self._sx + self._size]
         
-        print("Đây là ảnh copy_paste: ",copy_paste.permute(1, 2, 0))
-        plt.imshow(copy_paste.permute(1, 2, 0))
+        print("Đây là ảnh copy_paste: ",(numpy.transpose(copy_paste, (1, 2, 0)))
+        plt.imshow(numpy.transpose(copy_paste, (1, 2, 0)))
         plt.show()
 
         return copy_paste, bg_croped
