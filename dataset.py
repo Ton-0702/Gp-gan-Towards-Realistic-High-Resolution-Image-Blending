@@ -100,7 +100,7 @@ class BlendingDataset(dataset_mixin.DatasetMixin):
                                                                                         self._sx:self._sx + self._size,
                                                                                         self._sx:self._sx + self._size]
         
-        print("Đây là ảnh copy_paste: ",(numpy.transpose(copy_paste, (1, 2, 0)))
+        print("Đây là ảnh copy_paste: ",numpy.transpose(copy_paste, (1, 2, 0)))
         plt.imshow(numpy.transpose(copy_paste, (1, 2, 0)))
         plt.show()
 
