@@ -86,7 +86,7 @@ class BlendingDataset(dataset_mixin.DatasetMixin):
         obj_croped = self._crop(obj, rw, rh, sx, sy)
         
         print("Đây là ảnh obj: ",numpy.transpose(obj_croped, (1, 2, 0)))
-        plt.imshow((numpy.transpose(obj_croped, (1, 2, 0)))
+        plt.imshow(numpy.transpose(obj_croped, (1, 2, 0)))
         plt.show()
         
         bg_croped = self._crop(bg, rw, rh, sx, sy)
