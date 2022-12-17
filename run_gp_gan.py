@@ -111,6 +111,8 @@ def main():
             imsave('{}/obj_{}_bg_{}_mask_{}.png'.format(args.result_folder, basename(test_list[idx][0]),
                                                         basename(test_list[idx][1]), basename(test_list[idx][2])),
                    blended_im)
+            imsave('{}/obj_{}.png'.format(args.result_folder, basename(test_list[idx][0])),obj)
+            imsave('{}/bg{}.png'.format(args.result_folder, basename(test_list[idx][1])),bg)    
             imsave('{}/mask_{}.png'.format(args.result_folder, basename(test_list[idx][2])),mask)
 
 
