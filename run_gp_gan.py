@@ -96,7 +96,7 @@ def main():
         bg = img_as_float(imread(test_list[idx][1]))
         mask = imread(test_list[idx][2], as_gray=True).astype(obj.dtype)
 
-        imsave('{}/mask_{}.png'.format(args.result_folder, basename(test_list[idx][2])),mask)
+        
 
         with chainer.using_config("train", False):
             blended_im = gp_gan(obj, bg, mask, G, args.image_size, args.gpu, color_weight=args.color_weight,
@@ -111,7 +111,7 @@ def main():
             imsave('{}/obj_{}_bg_{}_mask_{}.png'.format(args.result_folder, basename(test_list[idx][0]),
                                                         basename(test_list[idx][1]), basename(test_list[idx][2])),
                    blended_im)
-
+            imsave('./mask_.png',mask)
 
 if __name__ == '__main__':
     main()
