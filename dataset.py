@@ -58,7 +58,7 @@ class BlendingDataset(dataset_mixin.DatasetMixin):
         self._imgs = []
         for _ in range(self._len):
             folder = numpy.random.choice(folders)
-            obj_path, bg_path = numpy.random.choice(imgs_per_folder[folder], 2, replace=True) #False
+            obj_path, bg_path = numpy.random.choice(imgs_per_folder[folder], 2, replace=False)
             self._imgs.append((obj_path, bg_path))
 
     def __len__(self):
@@ -84,14 +84,11 @@ class BlendingDataset(dataset_mixin.DatasetMixin):
                                                                                                      rh - self._crop_size)
 
         obj_croped = self._crop(obj, rw, rh, sx, sy)
-    
-        
         bg_croped = self._crop(bg, rw, rh, sx, sy)
-        
-        
+
         copy_paste = bg_croped.copy()
         copy_paste[:, self._sx:self._sx + self._size, self._sx:self._sx + self._size] = obj_croped[:,
                                                                                         self._sx:self._sx + self._size,
                                                                                         self._sx:self._sx + self._size]
-  
+
         return copy_paste, bg_croped
