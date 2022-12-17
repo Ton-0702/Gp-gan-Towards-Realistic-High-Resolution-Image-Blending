@@ -104,14 +104,15 @@ def main():
                                 gradient_kernel=args.gradient_kernel, smooth_sigma=args.smooth_sigma,
                                 supervised=args.supervised,
                                 nz=args.nz, n_iteration=args.n_iteration)
-        imsave('./mask_.png',mask)
+
         if args.blended_image:
             imsave(args.blended_image, blended_im)
         else:
             imsave('{}/obj_{}_bg_{}_mask_{}.png'.format(args.result_folder, basename(test_list[idx][0]),
                                                         basename(test_list[idx][1]), basename(test_list[idx][2])),
                    blended_im)
-        
+            imsave('{}/mask_{}.png'.format(args.result_folder, basename(test_list[idx][2])),mask)
+
 
 if __name__ == '__main__':
     main()
