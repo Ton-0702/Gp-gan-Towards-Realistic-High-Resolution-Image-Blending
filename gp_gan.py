@@ -1,4 +1,5 @@
 import math
+import matplotlib.pyplot as plt
 
 import chainer
 import chainer.functions as F
@@ -141,14 +142,17 @@ def run_gp_editing(src_im, dst_im, mask_im, gan_im, color_weight, sigma, gradien
     dst_feature = gradient_feature(dst_im, gan_im, gradient_kernel)
     src_feature = gradient_feature(src_im, gan_im, gradient_kernel)
     feature = dst_feature * (1 - mask_im) + src_feature * mask_im
-
+    print('dst_feature :')
+    plt.imshow(dst_feature)
+    print("src_feature:")
+    plt.imshow(src_feature)
     size, dtype = feature.shape[:2], feature.dtype
     param_l = laplacian_param(size, dtype)
     param_g = gaussian_param(size, dtype, sigma)
     gan_im = gaussian_poisson_editing(feature, param_l, param_g, color_weight=color_weight)
     gan_im = np.clip(gan_im, 0, 1)
 
-    return gan_im
+    # return gan_im
 
 
 def laplacian_pyramid(im, max_level, image_size, smooth_sigma):
