@@ -1,6 +1,4 @@
 import math
-import matplotlib.pyplot as plt
-# import numpy as np
 
 import chainer
 import chainer.functions as F
@@ -150,7 +148,7 @@ def run_gp_editing(src_im, dst_im, mask_im, gan_im, color_weight, sigma, gradien
     gan_im = gaussian_poisson_editing(feature, param_l, param_g, color_weight=color_weight)
     gan_im = np.clip(gan_im, 0, 1)
 
-    # return gan_im
+    return gan_im
 
 
 def laplacian_pyramid(im, max_level, image_size, smooth_sigma):
@@ -170,11 +168,9 @@ def laplacian_pyramid(im, max_level, image_size, smooth_sigma):
 
 """
 GP-GAN: Towards Realistic High-Resolution Image Blending
-
     obj:  source image,      size: w x h x 3, dtype: float, value: [0, 1]
     bg :  destination image, size: w x h x 3, dtype: float, value: [0, 1]
     mask: mask image,        size: w x h,     dtype: float, value: {0, 1}
-
     G: Generator
     image_size: image_size for Blending GAN
     gpu: gpu id
@@ -182,7 +178,6 @@ GP-GAN: Towards Realistic High-Resolution Image Blending
     sigma: sigma for gaussian smooth of Gaussian-Poisson Equation
     gradient_kernel: kernel type for calc gradient
     smooth_sigma: sigma for gaussian smooth of Laplacian pyramid
-
     supervised: supervised Blending GAN ?
     ## If supervised = False
     nz: noise vector lendth
