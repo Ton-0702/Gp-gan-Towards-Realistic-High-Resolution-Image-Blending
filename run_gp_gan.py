@@ -96,7 +96,7 @@ def main():
         bg = img_as_float(imread(test_list[idx][1]))
         mask = imread(test_list[idx][2], as_gray=True).astype(obj.dtype)
 
-        imsave('mask_{}.png'.format('blending_mask',basename(test_list[idx][2])),mask)
+        imsave('{}/mask_{}.png'.format('blending_mask', basename(test_list[idx][2])),mask)
 
         with chainer.using_config("train", False):
             blended_im = gp_gan(obj, bg, mask, G, args.image_size, args.gpu, color_weight=args.color_weight,
