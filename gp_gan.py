@@ -143,9 +143,9 @@ def run_gp_editing(src_im, dst_im, mask_im, gan_im, color_weight, sigma, gradien
     src_feature = gradient_feature(src_im, gan_im, gradient_kernel)
     feature = dst_feature * (1 - mask_im) + src_feature * mask_im
     print('dst_feature :')
-    plt.imshow(dst_feature)
+    plt.imshow(dst_feature[:-1])
     print("src_feature:")
-    plt.imshow(src_feature)
+    plt.imshow(src_feature[:-1])
     size, dtype = feature.shape[:2], feature.dtype
     param_l = laplacian_param(size, dtype)
     param_g = gaussian_param(size, dtype, sigma)
